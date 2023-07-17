@@ -12,7 +12,7 @@ const Home = (props) => {
             {articles.map((e) => {
                 return <div className="col-md-4 p-3">
                     <div class="card h-100 shadow">
-                        <img src={e.urlToImage} class="card-img-top" alt="..." />
+                        <img src={e.urlToImage?e.urlToImage:'https://images.unsplash.com/photo-1504711434969-e33886168f5c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80'} class="card-img-top" alt="..." />
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{e.author}</h5>
                             <p class="card-text">{e.description}</p>
