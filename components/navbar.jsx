@@ -38,6 +38,7 @@ closeNav()
     <>
       <LoadingBar
         color='#f11946'
+        height={6}
         progress={progress}
         onLoaderFinished={() => setProgress(0)}
       />
