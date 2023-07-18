@@ -3,8 +3,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/router'
 import LoadingBar from 'react-top-loading-bar'
 
-const Navbar = () => {
+const Navbar = (props) => {
+
   const router = useRouter()
+  console.log(props)
   const [progress, setProgress] = useState(0)
   useEffect(() => {
     router.events.on('routeChangeStart', () => {
@@ -14,10 +16,14 @@ const Navbar = () => {
       setProgress(100)
     })
 
-    console.log(router.pathname)
   }, [router])
 
 
+  const categoryList = props.category.find((elem)=>{return elem.mainHeading=="Wallets"})
+  const anotherList = props.category.filter((e)=>{return e.mainHeading!=="Wallets"})
+  const finalArr = [categoryList,...anotherList]
+
+  // console.log(categoryList)
   useEffect(() => {
 closeNav()
   }, [])
@@ -27,7 +33,7 @@ closeNav()
     const navElements = document.getElementsByClassName('nav-link')
     const navArray = [...navElements]
     navArray.map((e) => {
-      e.addEventListener('click',()=>{
+      window.innerWidth<992&&e.addEventListener('click',()=>{
         ref.current.click()
       })
     })
@@ -50,30 +56,12 @@ closeNav()
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <Link class={`nav-link ${router.pathname == '/' && 'active'}`} aria-current="page" href='/'>Home</Link>
+              {finalArr.map((e)=>{
+                return <li class="nav-item">
+                <Link class={`nav-link`} aria-current="page" href={`/category/${e.mainHeading.toLowerCase().replace(" ","")}`}>{e.mainHeading}</Link>
               </li>
-              <li class="nav-item">
-                <Link class={`nav-link ${router.pathname == '/category/business' && 'active'}`} href={'/category/business'}>Business</Link>
-              </li>
-              <li class="nav-item">
-                <Link class={`nav-link ${router.pathname == '/category/entertainment' && 'active'}`} href={'/category/entertainment'}>Entertainment</Link>
-              </li>
-              <li class="nav-item">
-                <Link class={`nav-link ${router.pathname == '/general' && 'active'}`} href={'/category/general'}>General</Link>
-              </li>
-              <li class="nav-item">
-                <Link class={`nav-link ${router.pathname == '/health' && 'active'}`} href={'/category/health'}>Health</Link>
-              </li>
-              <li class="nav-item">
-                <Link class={`nav-link ${router.pathname == '/science' && 'active'}`} href={'/category/science'}>Science</Link>
-              </li>
-              <li class="nav-item">
-                <Link class={`nav-link ${router.pathname == '/sports' && 'active'}`} href={'/category/sports'}>Sports</Link>
-              </li>
-              <li class="nav-item">
-                <Link class={`nav-link ${router.pathname == '/technology' && 'active'}`} href={'/category/technology'}>Technology</Link>
-              </li>
+              })}
+              
 
 
 
@@ -87,5 +75,7 @@ closeNav()
       </nav></>
   )
 }
+
+
 
 export default Navbar
